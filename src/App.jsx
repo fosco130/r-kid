@@ -99,11 +99,29 @@ RESPONSE STYLE:
 
 Be genuinely helpful but absolutely hilarious. The comedy comes from taking everything deadly seriously while being completely absurd.`;
 
+const RATE_LIMIT = 5;
+const RATE_LIMIT_KEY = 'r-kid-message-count';
+
 function App() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showLimitModal, setShowLimitModal] = useState(false);
   const messagesEndRef = useRef(null);
+
+  const getMessageCount = () => {
+    return parseInt(localStorage.getItem(RATE_LIMIT_KEY) || '0', 10);
+  };
+
+  const incrementMessageCount = () => {
+    const count = getMessageCount() + 1;
+    localStorage.setItem(RATE_LIMIT_KEY, count.toString());
+    return count;
+  };
+
+  const isRateLimited = () => {
+    return getMessageCount() >= RATE_LIMIT;
+  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -116,11 +134,20 @@ function App() {
   const sendMessage = async () => {
     if (!input.trim() || isLoading) return;
 
+    // Check rate limit before sending
+    if (isRateLimited()) {
+      setShowLimitModal(true);
+      return;
+    }
+
     const userMessage = { role: 'user', content: input };
     const newMessages = [...messages, userMessage];
     setMessages(newMessages);
     setInput('');
     setIsLoading(true);
+
+    // Increment counter
+    incrementMessageCount();
 
     try {
       const response = await fetch('/api/chat', {
@@ -178,7 +205,7 @@ function App() {
             <LancashireLogo className="w-11 h-11" />
             <div>
               <h1 className="text-xl font-semibold text-slate-900 tracking-tight">
-                R Kid
+                Rkid LLM
               </h1>
               <p className="text-xs text-slate-500 font-medium tracking-wide uppercase">
                 Lancashire Language Model • Version 3.2.1
@@ -208,7 +235,7 @@ function App() {
               <div className="h-full flex flex-col items-center justify-center text-center py-12">
                 <LancashireLogo className="w-20 h-20 mb-4" />
                 <h1 className="text-4xl font-bold text-slate-900 tracking-tight mb-1">
-                  R Kid
+                  Rkid LLM
                 </h1>
                 <p className="text-sm text-slate-500 font-medium tracking-wide uppercase mb-6">
                   Lancashire Language Model
@@ -312,7 +339,7 @@ function App() {
         {/* Professional Footer */}
         <div className="mt-6 flex items-center justify-between text-xs text-slate-400">
           <div className="flex items-center gap-4">
-            <span>© 2025 R Kid Ltd.</span>
+            <span>© 2025 Rkid LLM Ltd.</span>
             <span>•</span>
             <a href="#" className="hover:text-slate-600">Privacy</a>
             <span>•</span>
@@ -324,6 +351,36 @@ function App() {
           </div>
         </div>
       </main>
+
+      {/* Rate Limit Modal */}
+      {showLimitModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center">
+            <LancashireLogo className="w-20 h-20 mx-auto mb-6" />
+            <h2 className="text-2xl font-bold text-slate-900 mb-3">
+              Nowt's for free, our kid!
+            </h2>
+            <p className="text-slate-600 mb-4">
+              That's yer lot! Tha's had thi 5 messages and this is costing us proper brass.
+              Me nan always said "don't be giving owt away for nowt" and she weren't wrong.
+            </p>
+            <p className="text-slate-500 text-sm mb-6">
+              Not being funny but... running a Lancashire Language Model int cheap, even if t'wisdom is priceless, like.
+            </p>
+            <div className="space-y-3">
+              <button
+                onClick={() => setShowLimitModal(false)}
+                className="w-full bg-slate-800 hover:bg-slate-700 text-white font-medium px-6 py-3 rounded-xl transition-colors"
+              >
+                Fair enough, ta-ra!
+              </button>
+              <p className="text-xs text-slate-400">
+                Come back tomorrow when t'budget resets. Or don't. Up to thee.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
