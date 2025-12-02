@@ -107,6 +107,7 @@ function App() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showLimitModal, setShowLimitModal] = useState(false);
+  const [activeModal, setActiveModal] = useState(null); // 'docs', 'api', 'privacy', 'terms'
   const messagesEndRef = useRef(null);
 
   const getMessageCount = () => {
@@ -217,8 +218,8 @@ function App() {
               <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
               Operational
             </span>
-            <a href="#" className="text-sm text-slate-600 hover:text-slate-900">Docs</a>
-            <a href="#" className="text-sm text-slate-600 hover:text-slate-900">API</a>
+            <button onClick={() => setActiveModal('docs')} className="text-sm text-slate-600 hover:text-slate-900">Docs</button>
+            <button onClick={() => setActiveModal('api')} className="text-sm text-slate-600 hover:text-slate-900">API</button>
           </div>
         </div>
       </header>
@@ -341,9 +342,9 @@ function App() {
           <div className="flex items-center gap-4">
             <span>© 2025 Rkid LLM Ltd.</span>
             <span>•</span>
-            <a href="#" className="hover:text-slate-600">Privacy</a>
+            <button onClick={() => setActiveModal('privacy')} className="hover:text-slate-600">Privacy</button>
             <span>•</span>
-            <a href="#" className="hover:text-slate-600">Terms</a>
+            <button onClick={() => setActiveModal('terms')} className="hover:text-slate-600">Terms</button>
           </div>
           <div className="flex items-center gap-2">
             <span>Trained in Lancashire, England. Not London.</span>
@@ -378,6 +379,187 @@ function App() {
                 Come back tomorrow when t'budget resets. Or don't. Up to thee.
               </p>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Docs Modal */}
+      {activeModal === 'docs' && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setActiveModal(null)}>
+          <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8 max-h-[80vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+            <h2 className="text-2xl font-bold text-slate-900 mb-4">Documentation</h2>
+            <div className="space-y-4 text-slate-600 text-sm">
+              <div className="bg-slate-50 rounded-lg p-4">
+                <h3 className="font-semibold text-slate-800 mb-2">Getting Started</h3>
+                <p>Right then, our kid. Using Rkid LLM is dead simple, like. Tha just types in t'box and I'll sort thee out wi' proper Lancashire wisdom. No fancy tutorials needed - we're not southern.</p>
+              </div>
+              <div className="bg-slate-50 rounded-lg p-4">
+                <h3 className="font-semibold text-slate-800 mb-2">Best Practices</h3>
+                <p>1. Don't ask owt daft about Yorkshire being better. It int.</p>
+                <p>2. If tha mentions London, expect a lecture.</p>
+                <p>3. Questions about pies get priority response times.</p>
+                <p>4. Me nan's wisdom is final. No appeals.</p>
+              </div>
+              <div className="bg-slate-50 rounded-lg p-4">
+                <h3 className="font-semibold text-slate-800 mb-2">Troubleshooting</h3>
+                <p><strong>Q: Why does every answer mention pies?</strong></p>
+                <p className="mb-2">A: Because pies are t'answer to everything. This int a bug, it's a feature.</p>
+                <p><strong>Q: The AI seems biased against Yorkshire?</strong></p>
+                <p>A: Correct. Working as intended.</p>
+              </div>
+              <div className="bg-slate-50 rounded-lg p-4">
+                <h3 className="font-semibold text-slate-800 mb-2">System Requirements</h3>
+                <p>• A browser (nowt fancy, even t'one from Argos will do)</p>
+                <p>• Internet connection (preferably not that London 5G malarkey)</p>
+                <p>• A brew nearby (optional but recommended)</p>
+                <p>• Flat cap (emotional support purposes)</p>
+              </div>
+            </div>
+            <button
+              onClick={() => setActiveModal(null)}
+              className="w-full mt-6 bg-slate-800 hover:bg-slate-700 text-white font-medium px-6 py-3 rounded-xl transition-colors"
+            >
+              Champion, got it!
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* API Modal */}
+      {activeModal === 'api' && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setActiveModal(null)}>
+          <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8 max-h-[80vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+            <h2 className="text-2xl font-bold text-slate-900 mb-4">API Reference</h2>
+            <div className="space-y-4 text-slate-600 text-sm">
+              <div className="bg-slate-900 rounded-lg p-4 text-green-400 font-mono text-xs">
+                <p className="text-slate-400 mb-2"># Lancashire-Compliant API Request</p>
+                <p>POST /api/chat</p>
+                <p className="mt-2">{"{"}</p>
+                <p className="ml-4">"message": "What's for tea?",</p>
+                <p className="ml-4">"politeness": "proper",</p>
+                <p className="ml-4">"pie_preference": "meat_and_potato"</p>
+                <p>{"}"}</p>
+              </div>
+              <div className="bg-slate-50 rounded-lg p-4">
+                <h3 className="font-semibold text-slate-800 mb-2">Rate Limits</h3>
+                <p>Tha gets 5 requests, like. We're not made of brass.</p>
+                <p className="mt-2 text-xs text-slate-500">Enterprise plans available if tha's from a proper Lancashire business. Yorkshire companies need not apply.</p>
+              </div>
+              <div className="bg-slate-50 rounded-lg p-4">
+                <h3 className="font-semibold text-slate-800 mb-2">Response Codes</h3>
+                <p><span className="font-mono bg-green-100 text-green-800 px-1 rounded">200</span> - Reyt good, that worked</p>
+                <p><span className="font-mono bg-yellow-100 text-yellow-800 px-1 rounded">429</span> - Tha's had thi lot, come back later</p>
+                <p><span className="font-mono bg-red-100 text-red-800 px-1 rounded">500</span> - Summat's gone proper wrong</p>
+                <p><span className="font-mono bg-purple-100 text-purple-800 px-1 rounded">418</span> - Tha asked about Yorkshire, I'm refusing</p>
+              </div>
+              <div className="bg-slate-50 rounded-lg p-4">
+                <h3 className="font-semibold text-slate-800 mb-2">Authentication</h3>
+                <p>No API keys needed. We trust thee. This int London where everyone's proper suspicious of each other.</p>
+                <p className="mt-2 text-xs text-slate-500">If tha abuses this trust, me nan will find out. And tha doesn't want that.</p>
+              </div>
+            </div>
+            <button
+              onClick={() => setActiveModal(null)}
+              className="w-full mt-6 bg-slate-800 hover:bg-slate-700 text-white font-medium px-6 py-3 rounded-xl transition-colors"
+            >
+              Sorted, ta!
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Privacy Modal */}
+      {activeModal === 'privacy' && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setActiveModal(null)}>
+          <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8 max-h-[80vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+            <h2 className="text-2xl font-bold text-slate-900 mb-4">Privacy Policy</h2>
+            <p className="text-slate-500 text-xs mb-4">Last updated: When we remembered to, like</p>
+            <div className="space-y-4 text-slate-600 text-sm">
+              <div className="bg-slate-50 rounded-lg p-4">
+                <h3 className="font-semibold text-slate-800 mb-2">What We Collect</h3>
+                <p>Nowt much, our kid. We're not nosy like them southern tech companies.</p>
+                <ul className="list-disc ml-4 mt-2 space-y-1">
+                  <li>Thi messages (so we can answer thee, obviously)</li>
+                  <li>How many times tha's chatted (for t'rate limit)</li>
+                  <li>That's it. We're not Facebook.</li>
+                </ul>
+              </div>
+              <div className="bg-slate-50 rounded-lg p-4">
+                <h3 className="font-semibold text-slate-800 mb-2">What We Don't Do</h3>
+                <p>• Sell thi data to anyone (we're not that desperate for brass)</p>
+                <p>• Track thee round t'internet (we've got better things to do)</p>
+                <p>• Share owt with Yorkshire (never)</p>
+                <p>• Tell thi nan what tha asked (unless it were really daft)</p>
+              </div>
+              <div className="bg-slate-50 rounded-lg p-4">
+                <h3 className="font-semibold text-slate-800 mb-2">Cookies</h3>
+                <p>We use cookies. Not t'nice ones from Greggs, the boring computer ones. Just enough to remember tha's been here before.</p>
+                <p className="mt-2">If tha doesn't like it, tha can clear thi browser. Or have an actual biscuit and feel better about it.</p>
+              </div>
+              <div className="bg-slate-50 rounded-lg p-4">
+                <h3 className="font-semibold text-slate-800 mb-2">Thi Rights</h3>
+                <p>Tha has t'right to ask us what we know about thee. Answer: not much.</p>
+                <p>Tha has t'right to be forgotten. Just close t'browser and don't come back. Simple.</p>
+                <p>Tha has t'right to a proper pie. This int related to privacy but it's still true.</p>
+              </div>
+            </div>
+            <button
+              onClick={() => setActiveModal(null)}
+              className="w-full mt-6 bg-slate-800 hover:bg-slate-700 text-white font-medium px-6 py-3 rounded-xl transition-colors"
+            >
+              Fair enough, our kid
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Terms Modal */}
+      {activeModal === 'terms' && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setActiveModal(null)}>
+          <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8 max-h-[80vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+            <h2 className="text-2xl font-bold text-slate-900 mb-4">Terms of Service</h2>
+            <p className="text-slate-500 text-xs mb-4">The boring legal stuff, but make it Lancashire</p>
+            <div className="space-y-4 text-slate-600 text-sm">
+              <div className="bg-slate-50 rounded-lg p-4">
+                <h3 className="font-semibold text-slate-800 mb-2">1. Acceptance of Terms</h3>
+                <p>By using Rkid LLM, tha agrees to these terms. If tha doesn't agree, tha knows where t'door is. No hard feelings, like.</p>
+              </div>
+              <div className="bg-slate-50 rounded-lg p-4">
+                <h3 className="font-semibold text-slate-800 mb-2">2. Acceptable Use</h3>
+                <p>Tha can use this for:</p>
+                <p>• Asking questions (sensible or daft, we don't judge)</p>
+                <p>• Getting proper Lancashire wisdom</p>
+                <p>• Learning why Lancashire is superior</p>
+                <p className="mt-2">Tha CANNOT use this for:</p>
+                <p>• Yorkshire propaganda</p>
+                <p>• Claiming Greggs is overrated</p>
+                <p>• Being mardy about t'weather (we all are, but keep it to thissen)</p>
+              </div>
+              <div className="bg-slate-50 rounded-lg p-4">
+                <h3 className="font-semibold text-slate-800 mb-2">3. Disclaimer</h3>
+                <p>This AI talks like it's from Lancashire because it IS from Lancashire (spiritually, like). Any advice given is for entertainment.</p>
+                <p className="mt-2">Not being funny but... don't sue us if tha follows pie advice and gains a few pounds. That's on thee.</p>
+              </div>
+              <div className="bg-slate-50 rounded-lg p-4">
+                <h3 className="font-semibold text-slate-800 mb-2">4. Limitation of Liability</h3>
+                <p>We're not liable for:</p>
+                <p>• Sudden cravings for meat and potato pie</p>
+                <p>• Unexplained urges to visit Blackpool</p>
+                <p>• Strong opinions about Yorkshire developing</p>
+                <p>• Starting sentences with "Not being funny but..."</p>
+              </div>
+              <div className="bg-slate-50 rounded-lg p-4">
+                <h3 className="font-semibold text-slate-800 mb-2">5. Governing Law</h3>
+                <p>These terms are governed by the laws of Lancashire. And me nan. Mostly me nan, to be honest.</p>
+                <p className="mt-2 text-xs text-slate-500">Any disputes will be settled over a brew and an Eccles cake. This is legally binding. Probably.</p>
+              </div>
+            </div>
+            <button
+              onClick={() => setActiveModal(null)}
+              className="w-full mt-6 bg-slate-800 hover:bg-slate-700 text-white font-medium px-6 py-3 rounded-xl transition-colors"
+            >
+              I accept, don't mither me
+            </button>
           </div>
         </div>
       )}
