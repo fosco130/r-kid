@@ -228,23 +228,23 @@ function App() {
       <main className="flex-1 flex flex-col max-w-4xl mx-auto w-full p-6">
         
         {/* Chat Container */}
-        <div className="flex-1 flex flex-col bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-          
+        <div className="flex-1 flex flex-col bg-slate-900 rounded-xl border border-slate-700 shadow-lg overflow-hidden">
+
           {/* Messages Area */}
           <div className="flex-1 overflow-y-auto p-6 space-y-6">
             {messages.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center py-12">
                 <LancashireLogo className="w-20 h-20 mb-4" />
-                <h1 className="text-4xl font-bold text-slate-900 tracking-tight mb-1">
+                <h1 className="text-4xl font-bold text-white tracking-tight mb-1">
                   Rkid LLM
                 </h1>
-                <p className="text-sm text-slate-500 font-medium tracking-wide uppercase mb-6">
+                <p className="text-sm text-slate-400 font-medium tracking-wide uppercase mb-6">
                   Lancashire Language Model
                 </p>
-                <h2 className="text-xl font-semibold text-slate-900 mb-2">
+                <h2 className="text-xl font-semibold text-white mb-2">
                   How can I help thee today?
                 </h2>
-                <p className="text-slate-500 mb-8 max-w-md">
+                <p className="text-slate-400 mb-8 max-w-md">
                   Lancashire's leading language model. Trained on generations of regional wisdom, proper dialect, and me nan's advice.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-lg">
@@ -252,7 +252,7 @@ function App() {
                     <button
                       key={i}
                       onClick={() => setInput(prompt)}
-                      className="text-left px-4 py-3 bg-slate-50 hover:bg-slate-100 rounded-lg text-slate-700 text-sm transition-colors border border-slate-200 hover:border-slate-300"
+                      className="text-left px-4 py-3 bg-slate-800 hover:bg-slate-700 rounded-lg text-slate-200 text-sm transition-colors border border-slate-600 hover:border-slate-500"
                     >
                       {prompt}
                     </button>
@@ -267,8 +267,8 @@ function App() {
                 >
                   <div className={`flex gap-3 max-w-[80%] ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
                     <div className={`w-8 h-8 rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden ${
-                      msg.role === 'user' 
-                        ? 'bg-slate-800 text-white' 
+                      msg.role === 'user'
+                        ? 'bg-red-600 text-white'
                         : ''
                     }`}>
                       {msg.role === 'user' ? (
@@ -282,8 +282,8 @@ function App() {
                     <div
                       className={`rounded-2xl px-4 py-3 ${
                         msg.role === 'user'
-                          ? 'bg-slate-800 text-white'
-                          : 'bg-slate-100 text-slate-800'
+                          ? 'bg-red-600 text-white'
+                          : 'bg-slate-700 text-slate-100'
                       }`}
                     >
                       <p className="text-sm leading-relaxed">{msg.content}</p>
@@ -298,14 +298,14 @@ function App() {
                   <div className="w-8 h-8 rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden">
                     <LancashireLogoMini className="w-8 h-8" />
                   </div>
-                  <div className="bg-slate-100 text-slate-800 rounded-2xl px-4 py-3">
+                  <div className="bg-slate-700 text-slate-100 rounded-2xl px-4 py-3">
                     <div className="flex items-center gap-2">
                       <div className="flex gap-1">
                         <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></span>
                         <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></span>
                         <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></span>
                       </div>
-                      <span className="text-sm text-slate-500">Thinking... give us a sec, our kid...</span>
+                      <span className="text-sm text-slate-300">Thinking... give us a sec, our kid...</span>
                     </div>
                   </div>
                 </div>
@@ -315,7 +315,7 @@ function App() {
           </div>
 
           {/* Input Area */}
-          <div className="p-4 border-t border-slate-200 bg-slate-50">
+          <div className="p-4 border-t border-slate-700 bg-slate-800">
             <div className="flex gap-3">
               <input
                 type="text"
@@ -323,13 +323,13 @@ function App() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Send a message..."
-                className="flex-1 bg-white text-slate-900 placeholder-slate-400 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-slate-800 border border-slate-200 text-sm"
+                className="flex-1 bg-slate-700 text-white placeholder-slate-400 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-red-500 border border-slate-600 text-sm"
                 disabled={isLoading}
               />
               <button
                 onClick={sendMessage}
                 disabled={isLoading || !input.trim()}
-                className="bg-slate-800 hover:bg-slate-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-medium px-5 py-3 rounded-xl transition-colors text-sm"
+                className="bg-red-600 hover:bg-red-500 disabled:bg-slate-600 disabled:cursor-not-allowed text-white font-medium px-5 py-3 rounded-xl transition-colors text-sm"
               >
                 Send
               </button>
